@@ -15,3 +15,5 @@ Soon.
 ## Changelog
 
 check [changelog.md](changelog.md)
+
+> Logo by freepik.com
