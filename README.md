@@ -1,18 +1,17 @@
-# Introduction
+# SPARTAN
 
 ![SPARTAN logo](assets/SPARTAN.svg)
 
-SPARTAN is a general purpose programming language written in Rust.
-This language is intended to be plain and simple. Hence the name SPARTAN (it's not an acronym).
+SPARTAN is a BASIC-like general purpose programming language written in Rust. This language is intended to be plain and simple. Hence the name SPARTAN (it's not an acronym).
 
-# Grammar
+## Grammar
 
-check [grammar.txt](grammar.md).
+check [grammar.ebnf](grammar.ebnf).
 
-# Documentaion
+## Documentaion
 
 Soon.
 
-# Changelog
+## Changelog
 
 check [changelog.md](changelog.md)

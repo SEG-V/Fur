@@ -1,70 +1,60 @@
-use std::iter;
+use crate::token;
 
-pub struct Lexer<'a> {
-	column: usize,
-	index: usize,
-	line: usize,
-	text: &'a str
+#[derive(Copy, Clone)]
+pub struct Lexer<'text> {
+	position: crate::Position,
+	text: &'text str
 }
 
-#[derive(Debug)]
-pub enum Operator {
-	Add,
-	Divide,
-	Multiply,
-	Subtract
-}
+impl<'text> Lexer<'text> {
+	pub fn drop_token(&mut self) {
+		self.get_token();
+	}
 
-#[derive(Debug)]
-pub enum Token {
-	Error,
-	Integer(u32),
-	Operator(Operator),
-	Terminator
-}
+	fn get_char(&mut self) -> (Option<char>, crate::Position) {
+		let position = self.position;
+		let c = self.text.chars().nth(self.position.index);
 
-pub struct TokenIterator<'a> {
-	lexer: &'a mut Lexer<'a>
-}
-
-impl<'a> Lexer<'a> {
-	fn get_char(&mut self) -> Option<char> {
-		let c = self.text.chars().nth(self.index);
-
-		if self.index < self.text.len() {
-			self.index += 1;
+		if self.position.index < self.text.len() {
+			self.position.index += 1;
 
 			if let Some('\n') = c {
-				self.column = 1;
-				self.line += 1;
+				self.position.column = 1;
+				self.position.line += 1;
 			} else {
-				self.column += 1;
+				self.position.column += 1;
 			}
 		}
 
-		c
+		
+		(c, position)
 	}
 
-	pub fn get_token(&mut self) -> Option<Token> {
-		let current_char = self.get_char();
+	pub fn get_token(&mut self) -> crate::token::Token {
+		let (current_char, mut position) = self.get_char();
 
 		match current_char {
 			Some(mut c) => {
 				if c.is_whitespace() {
 					while c.is_whitespace() {
 						match self.get_char() {
-							Some(new_c) => c = new_c,
-							None => return None
+							(Some(new_c), new_position) => {
+								c = new_c;
+								position = new_position;
+							},
+							(None, _) => return crate::token::Token::EOF(position)
 						}
 					}
 				}
 
 				match c {
-					'+' => Some(Token::Operator(Operator::Add)),
-					'/' => Some(Token::Operator(Operator::Divide)),
-					'*' => Some(Token::Operator(Operator::Multiply)),
-					'-' => Some(Token::Operator(Operator::Subtract)),
-					';' => Some(Token::Terminator),
+					'+' => token::Token::Operator(position, crate::Operator::Add),
+					'/' => token::Token::Operator(position, crate::Operator::Divide),
+					'*' => token::Token::Operator(position, crate::Operator::Multiply),
+					'-' => token::Token::Operator(position, crate::Operator::Subtract),
+					'(' => token::Token::ParenthesisL(position),
+					')' => token::Token::ParenthesisR(position),
+					';' => token::Token::Terminator(position),
 
 					_ => {
 						if c.is_ascii_digit() {
@@ -73,10 +63,12 @@ impl<'a> Lexer<'a> {
 							loop {
 								buffer.push(c);
 
-								match self.text.chars().nth(self.index) {
+								match self.text.chars().nth(self.position.index) {
 									Some(new_c) => {
 										if new_c.is_ascii_digit() {
-											c = self.get_char().unwrap();
+											let wrapped_c_and_position = self.get_char();
+											c = wrapped_c_and_position.0.unwrap();
+											position = wrapped_c_and_position.1;
 										} else {
 											break;
 										}
@@ -85,38 +77,31 @@ impl<'a> Lexer<'a> {
 								}
 							}
 
-							return Some(Token::Integer(buffer.parse::<u32>().unwrap()));
+							return crate::token::Token::Integer(position, buffer.parse::<u64>().unwrap());
 						}
 
-						eprintln!("SyntaxError: line {}:{} unsupported character '{}'.", self.line, self.column, c);
-						Some(Token::Error)
+						eprintln!("SyntaxError: line {}:{}, unsupported character '{}'.", position.line, position.column, c);
+						crate::token::Token::Error(position)
 					}
 				}
 			}
-			None => None
+			None => crate::token::Token::EOF(position)
 		}
 	}
 
-	pub fn new(text: &'a str) -> Lexer<'a> {
-		Lexer {
-			column: 1,
-			index: 0,
-			line: 1,
+	pub fn new(text: &'text str) -> Self {
+		Self {
+			position: crate::Position {
+				column: 1,
+				index: 0,
+				line: 1
+			},
 			text
 		}
 	}
 
-	pub fn tokenize(&'a mut self) -> TokenIterator<'a> {
-		TokenIterator {
-			lexer: self
-		}
-	}
-}
-
-impl<'a> iter::Iterator for TokenIterator<'a> {
-	type Item = Token;
-
-	fn next(&mut self) -> Option<Self::Item> {
-		self.lexer.get_token()
+	pub fn view_token(&self) -> token::Token {
+		let mut lexer = *self;
+		lexer.get_token()
 	}
 }
