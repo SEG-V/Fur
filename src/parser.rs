@@ -47,7 +47,6 @@ impl<'input> Parser<'input> {
 				Ok(statement) => statements.push(ast::AST::Statement(statement)),
 				Err(error) => match error.kind {
 					ErrorKind::Abort => {
-						eprintln!("{}", error);
 						break;
 					},
 					ErrorKind::SyntaxError => eprintln!("{}", error)
