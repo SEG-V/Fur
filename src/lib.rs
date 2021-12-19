@@ -58,7 +58,7 @@ pub fn start_repl() {
 
 		print!("> ");
 		match io::stdout().flush() {
-			Ok(_) => (), // do nothing
+			Ok(_) => (),
 			Err(_) => {
 				eprintln!("ERROR: failed to write to stdout.");
 				process::exit(1);
@@ -66,10 +66,8 @@ pub fn start_repl() {
 		}
 
 		match io::stdin().read_line(&mut input) {
-			Ok(n) => {
-				if n == 0 {
-					continue;
-				} else if input.trim() == "exit" {
+			Ok(_) => {
+				if input.trim() == "exit" {
 					break;
 				}
 			},

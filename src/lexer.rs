@@ -66,9 +66,9 @@ impl<'text> Lexer<'text> {
 								match self.text.chars().nth(self.position.index) {
 									Some(new_c) => {
 										if new_c.is_ascii_digit() {
-											let wrapped_c_and_position = self.get_char();
-											c = wrapped_c_and_position.0.unwrap();
-											position = wrapped_c_and_position.1;
+											let (wrapped_c, new_position) = self.get_char();
+											c = wrapped_c.unwrap();
+											position = new_position;
 										} else {
 											break;
 										}

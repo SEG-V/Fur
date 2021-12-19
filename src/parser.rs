@@ -2,6 +2,7 @@ use std::fmt;
 
 use crate::ast;
 use crate::token;
+use crate::lexer;
 
 struct Error {
 	pub kind: ErrorKind,
@@ -14,7 +15,7 @@ enum ErrorKind {
 }
 
 pub struct Parser<'lexer> {
-	lexer: crate::lexer::Lexer<'lexer>
+	lexer: lexer::Lexer<'lexer>
 }
 
 enum PrecedenceLevel {
