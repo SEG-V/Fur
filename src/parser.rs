@@ -212,9 +212,9 @@ impl<'input> Parser<'input> {
 impl PrecedenceLevel {
 	pub fn next(&self) -> Self {
 		match self {
-			PrecedenceLevel::LOW => Self::MID,
-			PrecedenceLevel::MID |
-			PrecedenceLevel::MAX => Self::MAX
+			Self::LOW => Self::MID,
+			Self::MID |
+			Self::MAX => Self::MAX
 		}
 	}
 }
