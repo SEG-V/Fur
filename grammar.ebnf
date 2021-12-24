@@ -5,9 +5,9 @@
 
 Lines          = Statements;
 
-Statements     = Statement ';' Statements | Statement;
+Statements     = Statement Statements | Statement;
 
-Statement      = Integer Expr;
+Statement      = Expr ';';
 
 BinaryOperator = '+' | '-' | '*' | '/'; (* Precedence: '*', '/' -> '+', '-' *)
 

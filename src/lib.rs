@@ -1,10 +1,11 @@
-pub mod ast;
-pub mod lexer;
-pub mod parser;
-pub mod token;
+mod ast;
+mod lexer;
+mod parser;
+mod runtime;
+mod token;
 
 use std::fmt;
-use std::{io, io::Write};
+use std::{ io, io::Write };
 use std::process;
 
 pub enum Operator {
@@ -52,7 +53,8 @@ impl fmt::Display for Operator {
 
 pub fn start_repl() {
 	println!("SPARTAN (version {})", env!("CARGO_PKG_VERSION"));
-
+	let mut rt = runtime::Runtime::new();
+	
 	loop {
 		let mut input = String::new();
 
@@ -64,7 +66,7 @@ pub fn start_repl() {
 				process::exit(1);
 			}
 		}
-
+		
 		match io::stdin().read_line(&mut input) {
 			Ok(_) => {
 				if input.trim() == "exit" {
@@ -76,7 +78,10 @@ pub fn start_repl() {
 				process::exit(1);
 			}
 		}
-
-		parser::Parser::new(input.trim()).parse();
+		
+		rt.run(
+			"<core>",
+			&parser::Parser::new(input.trim()).parse()
+		);
 	}
 }

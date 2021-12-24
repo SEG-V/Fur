@@ -1,3 +1,3 @@
 fn main() {
-	 spartan::start_repl();
+	spartan::start_repl();
 }
