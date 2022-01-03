@@ -1,6 +1,6 @@
 (*
-  Name: SPARTAN
-  Description: A simple and plain BASIC-like general purpose programming language
+  Name: Ferric
+  Description: A general purpose interpreted programming language
 *)
 
 Lines          = Statements;
@@ -17,6 +17,5 @@ UnaryOperator  = '-'; (* Precedence: '-' *)
 
 Value          = UnaryOperator Value | Integer | Null | '(' Expr ')';
 
-Integer        = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9', {'0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'};
-
+Integer        = [1-9], [0-9]*
 Null           = '(', ')'
