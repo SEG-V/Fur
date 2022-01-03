@@ -1,8 +1,4 @@
-# SPARTAN
-
-![SPARTAN logo](assets/SPARTAN.svg)
-
-SPARTAN is a BASIC-like general purpose programming language written in Rust. This language is intended to be plain and simple. Hence the name SPARTAN (it's not an acronym).
+Ferric is a general purpose interpreted programming language written in Rust.
 
 ## Grammar
 
@@ -10,10 +6,8 @@ check [grammar.ebnf](grammar.ebnf).
 
 ## Documentaion
 
-Soon.
+Coming soon.
 
 ## Changelog
 
 check [changelog.md](changelog.md)
-
-> Logo by freepik.com
