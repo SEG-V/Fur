@@ -33,10 +33,7 @@ impl Operator {
 	}
 
 	pub fn is_unary(&self) -> bool {
-		match self {
-			Operator::Subtract => true,
-			_ => false
-		}
+		matches!(self, Operator::Subtract)
 	}
 }
 
@@ -52,7 +49,10 @@ impl fmt::Display for Operator {
 }
 
 pub fn start_repl() {
-	println!("SPARTAN (version {})", env!("CARGO_PKG_VERSION"));
+	println!("{} (version {})",
+        env!("CARGO_PKG_NAME"),
+        env!("CARGO_PKG_VERSION")
+    );
 	let mut rt = runtime::Runtime::new();
 	
 	loop {

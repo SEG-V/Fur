@@ -1,4 +1,4 @@
-Ferric is a general purpose interpreted programming language written in Rust.
+Ferric is an interpreted general purpose programming language written in Rust.
 
 ## Grammar
 
