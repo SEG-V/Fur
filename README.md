@@ -1,3 +1,5 @@
+![Ferrum logo](assets/ferrum.svg)
+
 Ferrum is an interpreted general purpose programming language written in Rust.
 
 ## Grammar
