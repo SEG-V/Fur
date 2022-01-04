@@ -3,5 +3,5 @@
 version = 3
 
 [[package]]
-name = "spartan"
-version = "0.0.2"
+name = "ferrum"
+version = "0.0.3"

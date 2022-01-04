@@ -1,3 +1,3 @@
 fn main() {
-	ferric::start_repl();
+	ferrum::start_repl();
 }

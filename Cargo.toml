@@ -1,5 +1,6 @@
 [package]
-name = "ferric"
+name = "ferrum"
+descrption = "An interpreted general-purpose programming language."
 version = "0.0.3"
 edition = "2021"
 

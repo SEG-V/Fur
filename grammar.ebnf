@@ -1,6 +1,6 @@
 (*
-  Name: Ferric
-  Description: A general purpose interpreted programming language
+  Name: Ferrum
+  Description: An interpreted general-purpose programming language
 *)
 
 Lines          = Statements;
